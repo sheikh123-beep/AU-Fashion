@@ -1,0 +1,352 @@
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import Product from "./models/Product.js";
+
+dotenv.config();
+
+const products = [
+  {
+    name: "Oversized Cotton T-Shirt",
+    brand: "AU Fashion",
+    price: 899,
+    oldPrice: 1299,
+    discount: 31,
+    rating: 4.8,
+    reviews: 126,
+    stock: 20,
+    category: "Men",
+    description:
+      "Premium oversized cotton t-shirt with breathable fabric for all-day comfort.",
+    image:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
+  },
+
+  {
+    name: "Blue Denim Jacket",
+    brand: "AU Fashion",
+    price: 2499,
+    oldPrice: 3299,
+    discount: 24,
+    rating: 4.7,
+    reviews: 94,
+    stock: 15,
+    category: "Men",
+    description:
+      "Classic denim jacket made with premium stretch fabric.",
+    image:
+      "https://images.unsplash.com/photo-1542272604-787c3835535d?w=800",
+  },
+
+  {
+    name: "Floral Summer Dress",
+    brand: "AU Fashion",
+    price: 1599,
+    oldPrice: 2199,
+    discount: 27,
+    rating: 4.9,
+    reviews: 185,
+    stock: 30,
+    category: "Women",
+    description:
+      "Elegant floral dress perfect for casual outings and summer fashion.",
+    image:
+      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800",
+  },
+
+  {
+    name: "Kids Winter Hoodie",
+    brand: "AU Fashion",
+    price: 999,
+    oldPrice: 1399,
+    discount: 29,
+    rating: 4.6,
+    reviews: 72,
+    stock: 18,
+    category: "Kids",
+    description:
+      "Soft fleece hoodie designed to keep kids warm and comfortable.",
+    image:
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+  },
+
+  {
+    name: "Classic Black Sneakers",
+    brand: "AU Fashion",
+    price: 2199,
+    oldPrice: 2899,
+    discount: 24,
+    rating: 4.7,
+    reviews: 164,
+    stock: 22,
+    category: "Shoes",
+    description:
+      "Comfortable sneakers for daily wear with lightweight sole.",
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+  },
+
+  {
+    name: "Leather Travel Backpack",
+    brand: "AU Fashion",
+    price: 2799,
+    oldPrice: 3499,
+    discount: 20,
+    rating: 4.8,
+    reviews: 121,
+    stock: 16,
+    category: "Accessories",
+    description:
+      "Premium leather backpack suitable for travel and office.",
+    image:
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800",
+  },
+
+  {
+    name: "Luxury Analog Watch",
+    brand: "AU Fashion",
+    price: 3499,
+    oldPrice: 4499,
+    discount: 22,
+    rating: 4.9,
+    reviews: 238,
+    stock: 12,
+    category: "Watches",
+    description:
+      "Elegant analog wrist watch with stainless steel finish.",
+    image:
+      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=800",
+  },
+
+  {
+    name: "Women's Handbag",
+    brand: "AU Fashion",
+    price: 1899,
+    oldPrice: 2499,
+    discount: 24,
+    rating: 4.8,
+    reviews: 182,
+    stock: 25,
+    category: "Accessories",
+    description:
+      "Stylish handbag with spacious compartments.",
+    image:
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800",
+  },
+
+  {
+    name: "Men's Formal Shirt",
+    brand: "AU Fashion",
+    price: 1299,
+    oldPrice: 1699,
+    discount: 23,
+    rating: 4.6,
+    reviews: 143,
+    stock: 30,
+    category: "Men",
+    description:
+      "Slim fit formal shirt perfect for office and events.",
+    image:
+      "https://images.unsplash.com/photo-1603252109303-2751441dd157?w=800",
+  },
+
+  {
+    name: "Women's Running Shoes",
+    brand: "AU Fashion",
+    price: 2599,
+    oldPrice: 3299,
+    discount: 21,
+    rating: 4.7,
+    reviews: 198,
+    stock: 20,
+    category: "Shoes",
+    description:
+      "Breathable running shoes designed for comfort and performance.",
+    image:
+      "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800",
+  },
+
+  {
+    name: "Casual Polo T-Shirt",
+    brand: "AU Fashion",
+    price: 1199,
+    oldPrice: 1599,
+    discount: 25,
+    rating: 4.5,
+    reviews: 112,
+    stock: 28,
+    category: "Men",
+    description:
+      "Soft cotton polo t-shirt for everyday casual wear.",
+    image:
+      "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800",
+  },
+
+  {
+    name: "Women's Denim Jeans",
+    brand: "AU Fashion",
+    price: 1799,
+    oldPrice: 2399,
+    discount: 25,
+    rating: 4.7,
+    reviews: 168,
+    stock: 24,
+    category: "Women",
+    description:
+      "Comfortable slim-fit denim jeans with stretch fabric.",
+    image:
+      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800",
+  },
+
+  {
+    name: "Sports Hoodie",
+    brand: "AU Fashion",
+    price: 1999,
+    oldPrice: 2699,
+    discount: 26,
+    rating: 4.8,
+    reviews: 205,
+    stock: 18,
+    category: "Men",
+    description:
+      "Warm fleece hoodie ideal for winter and gym.",
+    image:
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800",
+  },
+
+  {
+    name: "Elegant Women's Kurti",
+    brand: "AU Fashion",
+    price: 1499,
+    oldPrice: 1999,
+    discount: 25,
+    rating: 4.9,
+    reviews: 252,
+    stock: 22,
+    category: "Women",
+    description:
+      "Beautiful printed kurti suitable for festivals and daily wear.",
+    image:
+      "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800",
+  },
+
+  {
+    name: "Kids Cartoon T-Shirt",
+    brand: "AU Fashion",
+    price: 699,
+    oldPrice: 999,
+    discount: 30,
+    rating: 4.6,
+    reviews: 81,
+    stock: 35,
+    category: "Kids",
+    description:
+      "Colorful printed t-shirt made from soft cotton.",
+    image:
+      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800",
+  },
+
+  {
+    name: "Running Sports Shoes",
+    brand: "AU Fashion",
+    price: 2999,
+    oldPrice: 3899,
+    discount: 23,
+    rating: 4.8,
+    reviews: 196,
+    stock: 14,
+    category: "Shoes",
+    description:
+      "High-performance sports shoes with extra cushioning.",
+    image:
+      "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800",
+  },
+
+  {
+    name: "Leather Belt",
+    brand: "AU Fashion",
+    price: 899,
+    oldPrice: 1199,
+    discount: 25,
+    rating: 4.5,
+    reviews: 94,
+    stock: 40,
+    category: "Accessories",
+    description:
+      "Premium genuine leather belt for formal and casual wear.",
+    image:
+      "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=800",
+  },
+
+  {
+    name: "Premium Sunglasses",
+    brand: "AU Fashion",
+    price: 1599,
+    oldPrice: 2199,
+    discount: 27,
+    rating: 4.7,
+    reviews: 144,
+    stock: 27,
+    category: "Accessories",
+    description:
+      "UV-protected stylish sunglasses for everyday use.",
+    image:
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800",
+  },
+
+  {
+    name: "Women's Party Gown",
+    brand: "AU Fashion",
+    price: 3999,
+    oldPrice: 5299,
+    discount: 25,
+    rating: 4.9,
+    reviews: 310,
+    stock: 10,
+    category: "Women",
+    description:
+      "Elegant evening gown for parties and special occasions.",
+    image:
+      "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800",
+  },
+
+  {
+    name: "Classic Leather Boots",
+    brand: "AU Fashion",
+    price: 3499,
+    oldPrice: 4499,
+    discount: 22,
+    rating: 4.8,
+    reviews: 171,
+    stock: 16,
+    category: "Shoes",
+    description:
+      "Durable leather boots with premium comfort.",
+    image:
+      "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800",
+  },
+];
+
+// ================= SEED DATABASE =================
+
+const seedProducts = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+
+    console.log("MongoDB Connected");
+
+    await Product.deleteMany({});
+
+    console.log("Old products removed");
+
+    await Product.insertMany(products);
+
+    console.log("✅ 20 Products Added Successfully");
+
+    process.exit(0);
+  } catch (error) {
+    console.error("❌ Seed Error:", error);
+    process.exit(1);
+  }
+};
+
+seedProducts();
